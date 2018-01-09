@@ -439,6 +439,12 @@ export class Generator {
       args: [],
       buildNode: function(args, context: SerializationContext) {
         let statements = context.serializeGenerator(other);
+        if (statements.length === 1) {
+          let statement = statements[0];
+          if (leadingComment.length > 0)
+            statement.leadingComments = [({ type: "BlockComment", value: leadingComment }: any)];
+          return statement;
+        }
         let block = t.blockStatement(statements);
         if (leadingComment.length > 0) block.leadingComments = [({ type: "BlockComment", value: leadingComment }: any)];
         return block;
